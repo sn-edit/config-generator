@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import yaml from "js-yaml";
 
 const initialState = {
@@ -65,24 +65,43 @@ const initialState = {
 const App = () => {
     const [config, setConfig] = useState(initialState);
 
+    const handleChange = (evt) => {
+        const { name, value } = evt.target;
+        let temp = {...config};
+        set(temp, name, value);
+        setConfig(temp);
+    };
+
+    const set = (obj, path, value) => {
+        let parts = path.split(".");
+        let last = parts.pop();
+        let lastObj = parts.reduce((acc, cur) => acc[cur], obj);
+        lastObj[last] = value;
+    }
+
+    console.log("RERENDER", config)
     return <React.Fragment>
         <form>
             <h1>Core</h1>
-            Log Level: <input type={"text"} name={"log_level"} value={config.app.core.root_directory} /> <br />
-            Log Level: <input type={"text"} name={"log_level"} value={config.app.core.log_level} /> <br />
-            Rate limit: <input type={"text"} name={"log_level"} value={config.app.core.rate_limit} /> <br />
+            Root Directory: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.root_directory"} value={config.app.core.root_directory} /> <br />
+            Log Level: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.log_level"} value={config.app.core.log_level} /> <br />
+            Rate limit: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rate_limit"} value={config.app.core.rate_limit} /> <br />
             <h1>Database</h1>
-            Path: <input type={"text"} name={"log_level"} value={config.app.core.db.path} /> <br />
-            Initialised: <input type={"text"} name={"log_level"} value={config.app.core.db.initialised} /> <br />
+            Path: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.db.path"} value={config.app.core.db.path} /> <br />
+            Initialised: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.db.initialised"} value={config.app.core.db.initialised} /> <br />
             <h1>Rest</h1>
-            Instance URL: <input type={"text"} name={"log_level"} value={config.app.core.rest.url} /> <br />
-            Username: <input type={"text"} name={"log_level"} value={config.app.core.rest.user} /> <br />
-            Password: <input type={"text"} name={"log_level"} value={config.app.core.rest.password} /> <br />
-            Masked: <input type={"text"} name={"log_level"} value={config.app.core.rest.masked} /> <br />
-            Xor Key: <input type={"text"} name={"log_level"} value={config.app.core.rest.xor_key} /> <br />
+            Instance URL: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.url"} value={config.app.core.rest.url} /> <br />
+            Username: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.user"} value={config.app.core.rest.user} /> <br />
+            Password: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.password"} value={config.app.core.rest.password} /> <br />
+            Masked: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.masked"} value={config.app.core.rest.masked} /> <br />
+            Xor Key: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.xor_key"} value={config.app.core.rest.xor_key} /> <br />
             <h1>Tables</h1>
             <p>In progress...</p>
         </form>
+        {/* this here goes to the right */}
+        <pre>
+            {yaml.safeDump(config)}
+        </pre>
     </React.Fragment>
 };
 
