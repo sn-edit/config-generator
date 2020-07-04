@@ -180,7 +180,8 @@ const App = () => {
 
     const labelStyle = "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
     const inputStyle = "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500";
-    const headerStyle = "text-center font-semibold";
+    const headerStyle = "text-center font-semibold my-2";
+    const buttonStyle = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4";
 
     return <React.Fragment>
         <div className="flex">
@@ -223,21 +224,36 @@ const App = () => {
                     <label className={labelStyle}>Xor Key: </label>
                     <input className={inputStyle} type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.xor_key"} value={config.app.core.rest.xor_key} /> <br />
 
+                    <hr />
+
                     {config.app.core.tables.map((table, index) => {
                         return <div key={"table" + index}>
-                            <hr />
-                            <h1 className={headerStyle}>{table.name}</h1>
-                            <button onClick={(e) => removeTable(e, table.name)}>Remove table {table.name}</button><br />
-                            Table name <input type={"text"} onChange={(e) => handleTablePropsChange(table.name, "name", e.target.value)} value={table.name} /><br />
-                            Unique key <input type={"text"} onChange={(e) => handleTablePropsChange(table.name, "unique_key", e.target.value)} value={table.unique_key} /><br />
 
-                            <h1>Fields</h1>
-                            <button onClick={(e) => addField(e, table.name)}>Add field</button>
+                            <h1 className={headerStyle}>{table.name}</h1><br />
+                            <button className={buttonStyle} onClick={(e) => removeTable(e, table.name)}>Remove table {table.name}</button><br />
+
+                            <label className={labelStyle}>Table name</label>
+                            <input className={inputStyle} type={"text"} onChange={(e) => handleTablePropsChange(table.name, "name", e.target.value)} value={table.name} /><br />
+
+                            <label className={labelStyle}>Unique key</label>
+                            <input className={inputStyle} type={"text"} onChange={(e) => handleTablePropsChange(table.name, "unique_key", e.target.value)} value={table.unique_key} /><br />
+
+                            <hr />
+
+                            <h1 className={headerStyle}>Fields</h1>
+
+                            <button className={buttonStyle} onClick={(e) => addField(e, table.name)}>Add field</button><br />
+
                             {table.fields.map((field, index2) => {
                                 return <div key={index+"_"+index2}>
-                                    <button onClick={() => removeField(e, table.name, field.field)}>Remove field {field.field}</button><br />
-                                    Field <input type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "field", e.target.value)} value={field.field} /><br />
-                                    Field Extension <input type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "extension", e.target.value)} value={field.extension} /><br />
+                                    <button className={buttonStyle} onClick={(e) => removeField(e, table.name, field.field)}>Remove field {field.field}</button><br />
+
+                                    <label className={labelStyle}>Field </label>
+                                    <input className={inputStyle} type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "field", e.target.value)} value={field.field} /><br />
+
+                                    <label className={labelStyle}>Field Extension </label>
+                                    <input className={inputStyle} type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "extension", e.target.value)} value={field.extension} /><br />
+                                <hr />
                                 </div>
                             })}
                             <hr />
