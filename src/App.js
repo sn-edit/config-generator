@@ -242,9 +242,8 @@ const App = () => {
 
                     {config.app.core.tables.map((table, index) => {
                         return <div key={"table" + index} className="my-4">
-
-                            <input id={"collapsible" + index} className="toggle" type="checkbox"></input>
-                                <label htmlFor={"collapsible" + index} className="bg-gray-200 hover:text-gray-800 lbl-toggle font-bold text-xl">{table.name}</label>
+                            <input id={"collapsible" + index} className="toggle" type="checkbox" />
+                            <label htmlFor={"collapsible" + index} className="bg-gray-200 hover:text-gray-800 lbl-toggle font-bold text-xl">{table.name}</label>
 
                             <div className={"collapsible-content"}>
                                 <div className={"content-inner bg-gray-100"}>
