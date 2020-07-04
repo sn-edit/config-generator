@@ -1,6 +1,12 @@
 import React, {useState} from "react";
 import yaml from "js-yaml";
 
+/* Icons */
+import { TiPlus, TiTimes } from "react-icons/ti";
+
+/* Custom CSS */
+import "./assets/snedit.css";
+
 const initialState = {
     app: {
         core: {
@@ -180,12 +186,17 @@ const App = () => {
 
     const labelStyle = "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
     const inputStyle = "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500";
-    const headerStyle = "text-center font-semibold my-2";
+    const headerStyle = "text-center font-semibold my-2 uppercase";
     const buttonStyle = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4";
+    const buttonStyleAdd = "bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded my-4 mx-auto";
+    const buttonStyleRemove = "bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded my-4";
 
     return <React.Fragment>
         <div className="flex">
             <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-1/4" style={{overflowY: "scroll", top: 0, bottom: 0, height: "100vh", flex: 1}}>
+
+                <h1 className="text-center my-8 font-semibold text-2xl">SN-EDIT Configuration</h1>
+
                 <form>
                     <h1 className={headerStyle}>Core</h1>
                     <label className={labelStyle}>Root Directory:</label>
@@ -226,46 +237,63 @@ const App = () => {
 
                     <hr />
 
+                    <h1 className={headerStyle}>Tables</h1>
+                    <button className={buttonStyleAdd} onClick={(e) => addTable(e)}>Add a new table <TiPlus className="inline-block" /></button>
+
                     {config.app.core.tables.map((table, index) => {
-                        return <div key={"table" + index}>
+                        return <div key={"table" + index} className="my-4">
 
-                            <h1 className={headerStyle}>{table.name}</h1><br />
-                            <button className={buttonStyle} onClick={(e) => removeTable(e, table.name)}>Remove table {table.name}</button><br />
+                            <input id={"collapsible" + index} className="toggle" type="checkbox"></input>
+                                <label htmlFor={"collapsible" + index} className="bg-gray-200 hover:text-gray-800 lbl-toggle font-bold text-xl">{table.name}</label>
 
-                            <label className={labelStyle}>Table name</label>
-                            <input className={inputStyle} type={"text"} onChange={(e) => handleTablePropsChange(table.name, "name", e.target.value)} value={table.name} /><br />
+                            <div className={"collapsible-content"}>
+                                <div className={"content-inner bg-gray-100"}>
 
-                            <label className={labelStyle}>Unique key</label>
-                            <input className={inputStyle} type={"text"} onChange={(e) => handleTablePropsChange(table.name, "unique_key", e.target.value)} value={table.unique_key} /><br />
+                                    <button className={buttonStyleRemove} onClick={(e) => removeTable(e, table.name)}>Remove {table.name} <TiTimes className="inline-block" /></button><br />
 
-                            <hr />
+                                    <label className={labelStyle}>Table name</label>
+                                    <input className={inputStyle} type={"text"} onChange={(e) => handleTablePropsChange(table.name, "name", e.target.value)} value={table.name} /><br />
 
-                            <h1 className={headerStyle}>Fields</h1>
+                                    <label className={labelStyle}>Unique key</label>
+                                    <input className={inputStyle} type={"text"} onChange={(e) => handleTablePropsChange(table.name, "unique_key", e.target.value)} value={table.unique_key} /><br />
 
-                            <button className={buttonStyle} onClick={(e) => addField(e, table.name)}>Add field</button><br />
+                                    <hr />
 
-                            {table.fields.map((field, index2) => {
-                                return <div key={index+"_"+index2}>
-                                    <button className={buttonStyle} onClick={(e) => removeField(e, table.name, field.field)}>Remove field {field.field}</button><br />
+                                    <h1 className={headerStyle}>Fields</h1>
 
-                                    <label className={labelStyle}>Field </label>
-                                    <input className={inputStyle} type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "field", e.target.value)} value={field.field} /><br />
+                                    <button className={buttonStyleAdd} onClick={(e) => addField(e, table.name)}>Add <TiPlus className="inline-block" /></button><br />
 
-                                    <label className={labelStyle}>Field Extension </label>
-                                    <input className={inputStyle} type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "extension", e.target.value)} value={field.extension} /><br />
-                                <hr />
+                                    {table.fields.map((field, index2) => {
+                                        return <div key={index+"_"+index2}>
+                                            <button className={buttonStyleRemove} onClick={(e) => removeField(e, table.name, field.field)}>Remove {field.field} <TiTimes className="inline-block" /></button><br />
+
+                                            <label className={labelStyle}>Field </label>
+                                            <input className={inputStyle} type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "field", e.target.value)} value={field.field} /><br />
+
+                                            <label className={labelStyle}>Field Extension </label>
+                                            <input className={inputStyle} type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "extension", e.target.value)} value={field.extension} /><br />
+
+                                        </div>
+                                    })}
+
                                 </div>
-                            })}
-                            <hr />
+
+                            </div>
+
                         </div>
                     })}
 
                 </form>
             </div>
             <div className="w-3/4" style={{overflowY: "scroll", height: "100vh", flex: 3}}>
-                <pre className="text-sm xl:text-xl bg-gray-100 md:mx-48 md:my-8 px-10 lg:px-8 py-8 lg:py-6 border border-gray-200 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 shadow-md">
-                    {yaml.safeDump(config)}
-                </pre>
+
+                <div className="text-sm xl:text-xl bg-gray-100 md:mx-48 md:my-8 px-10 lg:px-8 py-8 lg:py-6 border border-gray-200 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 shadow-md">
+                    <button className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded float-right">Download</button>
+                    <pre>
+                        {yaml.safeDump(config)}
+                    </pre>
+                </div>
+
             </div>
         </div>
 
