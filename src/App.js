@@ -184,8 +184,8 @@ const App = () => {
 
     return <React.Fragment>
         <div className="flex">
-
-            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-1/4 h-full">
+            <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-1/4 h-full" style={{overflowY: "scroll", top: 0, bottom: 0, position: "fixed"}}>
+            <form>
 
             <h1 className={headerStyle}>Core</h1>
                 <label className={labelStyle}>Root Directory:</label>
@@ -246,6 +246,7 @@ const App = () => {
                 })}
 
         </form>
+            </div>
 
             <div className="w-3/4">
 
