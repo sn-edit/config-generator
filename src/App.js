@@ -183,7 +183,7 @@ const App = () => {
     const headerStyle = "text-center font-semibold";
 
     return <React.Fragment>
-        <div className="flex" style={{display: "flex"}}>
+        <div className="flex">
             <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-1/4" style={{overflowY: "scroll", top: 0, bottom: 0, height: "100vh", flex: 1}}>
                 <form>
                     <h1 className={headerStyle}>Core</h1>
