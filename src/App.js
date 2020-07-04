@@ -62,6 +62,49 @@ const initialState = {
         },
     }
 };
+
+// const tables = [
+//     {
+//         name: "sys_script",
+//         unique_key: "sys_name",
+//         fields:
+//             [
+//                 {
+//                     extension: "txt",
+//                     field: "sys_id"
+//                 },
+//                 {
+//                     extension: "js",
+//                     field: "script"
+//                 },
+//                 {
+//                     extension: "txt",
+//                     field: "sys_name"
+//                 }
+//             ]
+//     },
+//     {
+//         name: "sys_script_include",
+//         unique_key: "sys_name",
+//         fields:
+//             [
+//                 {
+//                     extension: "txt",
+//                     field: "sys_id"
+//                 },
+//                 {
+//                     extension: "js",
+//                     field: "script"
+//                 },
+//                 {
+//                     extension: "txt",
+//                     field: "sys_name"
+//                 }
+//             ]
+//     }
+//     //....
+// ];
+
 const App = () => {
     const [config, setConfig] = useState(initialState);
 
@@ -79,7 +122,105 @@ const App = () => {
         lastObj[last] = value;
     }
 
-    console.log("RERENDER", config)
+    const addTable = (e) => {
+        e.preventDefault();
+
+        let configCopy = {...config};
+        const { tables } = configCopy.app.core;
+
+        let template = {
+            name: "",
+            unique_key: "",
+            fields:
+                [
+                    {
+                        extension: "txt",
+                        field: "sys_id"
+                    },
+                ]
+        };
+
+        tables.push(template);
+        setConfig(configCopy);
+    }
+
+    const addField = (e, tableName) => {
+        e.preventDefault();
+
+        let configCopy = {...config};
+        const { tables } = configCopy.app.core;
+
+        tables.map((table) => {
+            if (table.name === tableName) {
+                let fieldsTemplate = {
+                    field: "",
+                    extension: ""
+                };
+
+                table.fields.push(fieldsTemplate);
+            }
+        });
+
+        setConfig(configCopy);
+    };
+
+    const handleTablePropsChange = (tableName, prop, value) => {
+        let configCopy = {...config};
+        const {tables} = configCopy.app.core;
+
+        tables.map((table) => {
+            if (table.name === tableName) {
+                table[prop] = value;
+            }
+        });
+
+        setConfig(configCopy);
+    };
+
+    const handleTableFieldsChange = (tableName, fieldName, prop, value) => {
+        let configCopy = {...config};
+        const { tables } = configCopy.app.core;
+
+        tables.map((table) => {
+            if (table.name === tableName) {
+                table.fields.map((field) => {
+                    if (field.field === fieldName) {
+                        field[prop] = value;
+                    }
+                });
+            }
+        });
+
+        setConfig(configCopy);
+    };
+
+    const removeField = (e, tableName, fieldName) => {
+        e.preventDefault();
+        let configCopy = {...config};
+        const { tables } = configCopy.app.core;
+
+        tables.map((table) => {
+            if (table.name === tableName) {
+                table.fields = table.fields.filter((field) => {
+                    return field.field !== fieldName;
+                });
+            }
+        });
+
+        setConfig(configCopy);
+    };
+
+    const removeTable = (e, tableName) => {
+        e.preventDefault();
+        let configCopy = {...config};
+
+        configCopy.app.core.tables = configCopy.app.core.tables.filter((table) => {
+            return table.name !== tableName;
+        });
+
+        setConfig(configCopy);
+    };
+
     return <React.Fragment>
         <form>
             <h1>Core</h1>
@@ -95,8 +236,27 @@ const App = () => {
             Password: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.password"} value={config.app.core.rest.password} /> <br />
             Masked: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.masked"} value={config.app.core.rest.masked} /> <br />
             Xor Key: <input type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.xor_key"} value={config.app.core.rest.xor_key} /> <br />
-            <h1>Tables</h1>
-            <p>In progress...</p>
+            <h1>Tables</h1><button onClick={(e) => addTable(e)}>Add a new table</button>
+            {config.app.core.tables.map((table, index) => {
+                return <div key={"table" + index}>
+                    <hr />
+                    <h1>{table.name}</h1>
+                    <button onClick={(e) => removeTable(e, table.name)}>Remove table {table.name}</button><br />
+                    Table name <input type={"text"} onChange={(e) => handleTablePropsChange(table.name, "name", e.target.value)} value={table.name} /><br />
+                    Unique key <input type={"text"} onChange={(e) => handleTablePropsChange(table.name, "unique_key", e.target.value)} value={table.unique_key} /><br />
+
+                    <h1>Fields</h1>
+                    <button onClick={(e) => addField(e, table.name)}>Add field</button>
+                    {table.fields.map((field, index2) => {
+                        return <div key={index+"_"+index2}>
+                            <button onClick={() => removeField(e, table.name, field.field)}>Remove field {field.field}</button><br />
+                            Field <input type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "field", e.target.value)} value={field.field} /><br />
+                            Field Extension <input type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "extension", e.target.value)} value={field.extension} /><br />
+                        </div>
+                    })}
+                    <hr />
+                </div>
+            })}
         </form>
         {/* this here goes to the right */}
         <pre>
