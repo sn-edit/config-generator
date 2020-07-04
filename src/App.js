@@ -184,6 +184,23 @@ const App = () => {
         setConfig(configCopy);
     };
 
+    const downloadConfig = (e) => {
+        e.preventDefault();
+
+        let fileName = "sn-edit.yaml";
+        let data = yaml.safeDump(config);
+        let file = new File([data], fileName, {type: "application/octet-stream"});
+        let exportUrl = URL.createObjectURL(file);
+        let a = document.createElement("a");
+        a.style = "display: none";
+        a.href = exportUrl;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(exportUrl);
+        a.remove();
+    };
+
     const labelStyle = "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
     const inputStyle = "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500";
     const headerStyle = "text-center font-semibold my-2 uppercase";
@@ -293,7 +310,7 @@ const App = () => {
             <div className="w-3/4" style={{overflowY: "scroll", height: "100vh", flex: 3}}>
 
                 <div className="text-sm xl:text-xl bg-gray-100 md:mx-48 md:my-8 px-10 lg:px-8 py-8 lg:py-6 border border-gray-200 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 shadow-md">
-                    <button className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded float-right">Download</button>
+                    <button className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded float-right" onClick={(e) => downloadConfig(e)}>Download</button>
                     <pre>
                         {yaml.safeDump(config)}
                     </pre>
