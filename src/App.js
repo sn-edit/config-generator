@@ -189,7 +189,8 @@ const App = () => {
     const headerStyle = "text-center font-semibold my-2 uppercase";
     const buttonStyle = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4";
     const buttonStyleAdd = "bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded my-4 mx-auto";
-    const buttonStyleRemove = "bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded my-4";
+    const buttonStyleRemove = "bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded mt-1 mb-4";
+    const tableHeaderStyle = "mt-2";
 
     return <React.Fragment>
         <div className="flex">
@@ -248,29 +249,34 @@ const App = () => {
                             <div className={"collapsible-content"}>
                                 <div className={"content-inner bg-gray-100"}>
 
-                                    <button className={buttonStyleRemove} onClick={(e) => removeTable(e, table.name)}>Remove {table.name} <TiTimes className="inline-block" /></button><br />
-
                                     <label className={labelStyle}>Table name</label>
                                     <input className={inputStyle} type={"text"} onChange={(e) => handleTablePropsChange(table.name, "name", e.target.value)} value={table.name} /><br />
 
                                     <label className={labelStyle}>Unique key</label>
                                     <input className={inputStyle} type={"text"} onChange={(e) => handleTablePropsChange(table.name, "unique_key", e.target.value)} value={table.unique_key} /><br />
 
+                                    <button className={buttonStyleRemove} onClick={(e) => removeTable(e, table.name)}>Remove {table.name} <TiTimes className="inline-block" /></button><br />
+
                                     <hr />
 
                                     <h1 className={headerStyle}>Fields</h1>
 
-                                    <button className={buttonStyleAdd} onClick={(e) => addField(e, table.name)}>Add <TiPlus className="inline-block" /></button><br />
+                                    <button className={buttonStyleAdd} onClick={(e) => addField(e, table.name)}>Add new fields <TiPlus className="inline-block" /></button><br />
 
                                     {table.fields.map((field, index2) => {
                                         return <div key={index+"_"+index2}>
-                                            <button className={buttonStyleRemove} onClick={(e) => removeField(e, table.name, field.field)}>Remove {field.field} <TiTimes className="inline-block" /></button><br />
 
-                                            <label className={labelStyle}>Field </label>
+                                        <hr />
+
+                                            <label className={labelStyle + " mt-2"}>Field </label>
                                             <input className={inputStyle} type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "field", e.target.value)} value={field.field} /><br />
 
-                                            <label className={labelStyle}>Field Extension </label>
+                                            <label className={labelStyle + " mt-2"}>Field Extension </label>
                                             <input className={inputStyle} type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "extension", e.target.value)} value={field.extension} /><br />
+
+                                            <button className={buttonStyleRemove} onClick={(e) => removeField(e, table.name, field.field)}>Remove <TiTimes className="inline-block" /></button>
+
+                                            <hr />
 
                                         </div>
                                     })}
