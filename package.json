@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "rm dist/bundle.js",
     "start": "yarn run watch:css && parcel src/index.html",
-    "build-prod": "yarn run build:css && parcel build src/index.html",
+    "build-prod": "yarn run build:css && parcel build src/index.html -d docs",
     "build:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
     "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
     "predeploy": "npm run build",

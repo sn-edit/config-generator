@@ -206,7 +206,7 @@ const App = () => {
     const headerStyle = "text-center font-semibold my-2 uppercase";
     const buttonStyleAdd = "bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded my-4 mx-auto";
     const buttonStyleRemove = "bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded mt-1 mb-4";
-    const docsURL = (url) => <TiLink style={{display: "inline-block", cursor: "pointer"}} onClick={() => window.open(url)}/>;
+    const docsURL = (url) => <TiLink title={"See docs for more info"} style={{display: "inline-block", cursor: "pointer"}} onClick={() => window.open(url)}/>;
 
     return <React.Fragment>
         <div className="flex">
