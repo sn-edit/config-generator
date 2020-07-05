@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import yaml from "js-yaml";
 
 /* Icons */
-import { TiPlus, TiTimes } from "react-icons/ti";
+import { TiPlus, TiTimes, TiLink } from "react-icons/ti";
 
 /* Custom CSS */
 import "./assets/snedit.css";
@@ -24,48 +24,48 @@ const initialState = {
                 xor_key: "xor_key"
             },
             root_directory: "/path/to/scripts/folder/tmp",
-            tables: [
-                {
-                    name: "sys_script",
-                    unique_key: "sys_name",
-                    fields:
-                        [
-                            {
-                                extension: "txt",
-                                field: "sys_id"
-                            },
-                            {
-                                extension: "js",
-                                field: "script"
-                            },
-                            {
-                                extension: "txt",
-                                field: "sys_name"
-                            }
-                        ]
-                },
-                {
-                    name: "sys_script_include",
-                    unique_key: "sys_name",
-                    fields:
-                        [
-                            {
-                                extension: "txt",
-                                field: "sys_id"
-                            },
-                            {
-                                extension: "js",
-                                field: "script"
-                            },
-                            {
-                                extension: "txt",
-                                field: "sys_name"
-                            }
-                        ]
-                }
-                //....
-            ]
         },
+        tables: [
+            {
+                name: "sys_script",
+                unique_key: "sys_name",
+                fields:
+                    [
+                        {
+                            extension: "txt",
+                            field: "sys_id"
+                        },
+                        {
+                            extension: "js",
+                            field: "script"
+                        },
+                        {
+                            extension: "txt",
+                            field: "sys_name"
+                        }
+                    ]
+            },
+            {
+                name: "sys_script_include",
+                unique_key: "sys_name",
+                fields:
+                    [
+                        {
+                            extension: "txt",
+                            field: "sys_id"
+                        },
+                        {
+                            extension: "js",
+                            field: "script"
+                        },
+                        {
+                            extension: "txt",
+                            field: "sys_name"
+                        }
+                    ]
+            }
+            //....
+        ],
     }
 };
 const App = () => {
@@ -177,7 +177,7 @@ const App = () => {
         e.preventDefault();
         let configCopy = {...config};
 
-        configCopy.app.core.tables = configCopy.app.core.tables.filter((table) => {
+        configCopy.app.tables = configCopy.app.tables.filter((table) => {
             return table.name !== tableName;
         });
 
@@ -206,60 +206,61 @@ const App = () => {
     const headerStyle = "text-center font-semibold my-2 uppercase";
     const buttonStyleAdd = "bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded my-4 mx-auto";
     const buttonStyleRemove = "bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded mt-1 mb-4";
+    const docsURL = (url) => <TiLink style={{display: "inline-block", cursor: "pointer"}} onClick={() => window.open(url)}/>;
 
     return <React.Fragment>
         <div className="flex">
             <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-1/4" style={{overflowY: "scroll", top: 0, bottom: 0, height: "100vh", flex: 1}}>
 
                 <div>
-                    <img src={"https://docs.sn-edit.com/_assets/sn-edit-logo.png"} style={{width: "52px", height: "52px"}} className="mx-auto mb-0"/>
-                    <h1 className="text-center mb-8 font-semibold text-2xl border-2 border-gray-900 px-2 w-10/12 mx-auto">SN-EDIT Configuration</h1>
+                    <img alt={"logo.png"} src={"https://docs.sn-edit.com/_assets/sn-edit-logo.png"} style={{width: "52px", height: "52px"}} className="mx-auto mb-0"/>
+                    <h1 className="text-center mb-8 font-semibold text-2xl border-2 border-gray-900 px-2 w-10/12 mx-auto">SN-EDIT Configurator</h1>
                 </div>
 
                 <form>
-                    <h1 className={headerStyle}>Core</h1>
-                    <label className={labelStyle}>Root Directory:</label>
+                    <h1 className={headerStyle}>Core{docsURL("https://docs.sn-edit.com/#/configuration/README?id=config-parameters")}</h1>
+                    <label className={labelStyle}>Root Directory{docsURL("https://docs.sn-edit.com/#/configuration/README?id=appcoreroot_directory")}</label>
                     <input className={inputStyle} type={"text"} onChange={(e) => handleChange(e)} name={"app.core.root_directory"} value={config.app.core.root_directory} /> <br />
 
-                    <label className={labelStyle}>Log Level: </label>
+                    <label className={labelStyle}>Log Level{docsURL("https://docs.sn-edit.com/#/configuration/README?id=appcorelog_level")}</label>
                     <input className={inputStyle} type={"text"} onChange={(e) => handleChange(e)} name={"app.core.log_level"} value={config.app.core.log_level} /> <br />
 
-                    <label className={labelStyle}>Rate limit: </label>
-                    <input className={inputStyle} type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rate_limit"} value={config.app.core.rate_limit} /> <br />
+                    {/*<label className={labelStyle}>Rate limit{docsURL()}</label>*/}
+                    {/*<input className={inputStyle} type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rate_limit"} value={config.app.core.rate_limit} /> <br />*/}
 
                     <hr />
 
-                <h1 className={headerStyle}>Database</h1>
-                    <label className={labelStyle}>Path: </label>
+                <h1 className={headerStyle}>Database{docsURL("https://docs.sn-edit.com/#/configuration/README?id=appcoredb")}</h1>
+                    <label className={labelStyle}>Path{docsURL("https://docs.sn-edit.com/#/configuration/README?id=appcoredbpath")}</label>
                     <input className={inputStyle} type={"text"} onChange={(e) => handleChange(e)} name={"app.core.db.path"} value={config.app.core.db.path} /> <br />
 
-                    <label className={labelStyle}>Initialised: </label>
+                    <label className={labelStyle}>Initialised{docsURL("https://docs.sn-edit.com/#/configuration/README?id=appcoredbinitialised")}</label>
                     <input className={inputStyle} type={"text"} onChange={(e) => handleChange(e)} name={"app.core.db.initialised"} value={config.app.core.db.initialised} /> <br />
 
                     <hr />
 
-                <h1 className={headerStyle}>Rest</h1>
-                    <label className={labelStyle}> Instance URL: </label>
+                <h1 className={headerStyle}>Rest{docsURL("https://docs.sn-edit.com/#/configuration/README?id=appcorerest")}</h1>
+                    <label className={labelStyle}>Instance URL{docsURL("https://docs.sn-edit.com/#/configuration/README?id=appcoreresturl")}</label>
                     <input className={inputStyle} type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.url"} value={config.app.core.rest.url} /> <br />
 
-                    <label className={labelStyle}>Username: </label>
+                    <label className={labelStyle}>Username</label>
                     <input className={inputStyle} type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.user"} value={config.app.core.rest.user} /> <br />
 
-                    <label className={labelStyle}>Password: </label>
+                    <label className={labelStyle}>Password</label>
                     <input className={inputStyle} type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.password"} value={config.app.core.rest.password} type="password" /> <br />
 
-                    <label className={labelStyle}>Masked: </label>
+                    <label className={labelStyle}>Masked{docsURL("https://docs.sn-edit.com/#/configuration/README?id=appcorerestmasked")}</label>
                     <input className={inputStyle} type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.masked"} value={config.app.core.rest.masked} /> <br />
 
-                    <label className={labelStyle}>Xor Key: </label>
+                    <label className={labelStyle}>Xor Key{docsURL("https://docs.sn-edit.com/#/configuration/README?id=appcorerestxor_key")}</label>
                     <input className={inputStyle} type={"text"} onChange={(e) => handleChange(e)} name={"app.core.rest.xor_key"} value={config.app.core.rest.xor_key} /> <br />
 
                     <hr />
 
-                    <h1 className={headerStyle}>Tables</h1>
+                    <h1 className={headerStyle}>Tables{docsURL("https://docs.sn-edit.com/#/configuration/README?id=apptables")}</h1>
                     <button className={buttonStyleAdd} onClick={(e) => addTable(e)}>Add a new table <TiPlus className="inline-block" /></button>
 
-                    {config.app.core.tables.map((table, index) => {
+                    {config.app.tables.map((table, index) => {
                         return <div key={"table" + index} className="my-4">
                             <input id={"collapsible" + index} className="toggle" type="checkbox" />
                             <label htmlFor={"collapsible" + index} className="bg-gray-200 hover:text-gray-800 lbl-toggle font-bold text-xl">{table.name}</label>
