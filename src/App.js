@@ -204,10 +204,8 @@ const App = () => {
     const labelStyle = "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
     const inputStyle = "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500";
     const headerStyle = "text-center font-semibold my-2 uppercase";
-    const buttonStyle = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4";
     const buttonStyleAdd = "bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded my-4 mx-auto";
     const buttonStyleRemove = "bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded mt-1 mb-4";
-    const tableHeaderStyle = "mt-2";
 
     return <React.Fragment>
         <div className="flex">
