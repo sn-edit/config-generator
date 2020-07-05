@@ -211,7 +211,7 @@ const App = () => {
         <div className="flex">
             <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 w-1/4" style={{overflowY: "scroll", top: 0, bottom: 0, height: "100vh", flex: 1}}>
 
-                <h1 className="text-center my-8 font-semibold text-2xl">SN-EDIT Configuration</h1>
+                <h1 className="text-center my-8 font-semibold text-2xl"><img src={"https://docs.sn-edit.com/_assets/sn-edit-logo.png"} style={{width: "32px", height: "32px"}} />SN-EDIT Configuration</h1>
 
                 <form>
                     <h1 className={headerStyle}>Core</h1>
