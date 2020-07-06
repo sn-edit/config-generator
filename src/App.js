@@ -88,7 +88,7 @@ const App = () => {
         e.preventDefault();
 
         let configCopy = {...config};
-        const { tables } = configCopy.app.core;
+        const { tables } = configCopy.app;
 
         let template = {
             name: "",
@@ -110,7 +110,7 @@ const App = () => {
         e.preventDefault();
 
         let configCopy = {...config};
-        const { tables } = configCopy.app.core;
+        const { tables } = configCopy.app;
 
         tables.map((table) => {
             if (table.name === tableName) {
@@ -128,7 +128,7 @@ const App = () => {
 
     const handleTablePropsChange = (tableName, prop, value) => {
         let configCopy = {...config};
-        const {tables} = configCopy.app.core;
+        const {tables} = configCopy.app;
 
         tables.map((table) => {
             if (table.name === tableName) {
@@ -141,7 +141,7 @@ const App = () => {
 
     const handleTableFieldsChange = (tableName, fieldName, prop, value) => {
         let configCopy = {...config};
-        const { tables } = configCopy.app.core;
+        const { tables } = configCopy.app;
 
         tables.map((table) => {
             if (table.name === tableName) {
@@ -159,7 +159,7 @@ const App = () => {
     const removeField = (e, tableName, fieldName) => {
         e.preventDefault();
         let configCopy = {...config};
-        const { tables } = configCopy.app.core;
+        const { tables } = configCopy.app;
 
         tables.map((table) => {
             if (table.name === tableName) {
