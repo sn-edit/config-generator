@@ -11,7 +11,6 @@ const initialState = {
     app: {
         core: {
             log_level: "info",
-            rate_limit: 2,
             db: {
                 path: "/path/to/db/file",
                 initialised: false,
