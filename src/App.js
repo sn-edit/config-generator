@@ -2,7 +2,10 @@ import React, {useState} from "react";
 import yaml from "js-yaml";
 
 /* Icons */
-import { TiPlus, TiTimes, TiLink } from "react-icons/ti";
+import { Icon } from 'react-icons-kit';
+import {plus as TiPlus} from 'react-icons-kit/typicons/plus';
+import {link as TiLink} from 'react-icons-kit/typicons/link';
+import {times as TiTimes} from 'react-icons-kit/typicons/times';
 
 /* Custom CSS */
 import "./assets/snedit.css";
@@ -205,7 +208,7 @@ const App = () => {
     const headerStyle = "text-center font-semibold my-2 uppercase";
     const buttonStyleAdd = "bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded my-4 mx-auto";
     const buttonStyleRemove = "bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded mt-1 mb-4";
-    const docsURL = (url) => <TiLink title={"See docs for more info"} style={{display: "inline-block", cursor: "pointer"}} onClick={() => window.open(url)}/>;
+    const docsURL = (url) => <Icon icon={TiLink} title={"See docs for more info"} style={{display: "inline-block", cursor: "pointer"}} onClick={() => window.open(url)} />
 
     return <React.Fragment>
         <div className="flex">
@@ -257,7 +260,7 @@ const App = () => {
                     <hr />
 
                     <h1 className={headerStyle}>Tables{docsURL("https://docs.sn-edit.com/#/configuration/README?id=apptables")}</h1>
-                    <button className={buttonStyleAdd} onClick={(e) => addTable(e)}>Add a new table <TiPlus className="inline-block" /></button>
+                    <button className={buttonStyleAdd} onClick={(e) => addTable(e)}>Add a new table <Icon icon={TiPlus} className="inline-block" /></button>
 
                     {config.app.tables.map((table, index) => {
                         return <div key={"table" + index} className="my-4">
@@ -273,13 +276,13 @@ const App = () => {
                                     <label className={labelStyle}>Unique key</label>
                                     <input className={inputStyle} type={"text"} onChange={(e) => handleTablePropsChange(table.name, "unique_key", e.target.value)} value={table.unique_key} /><br />
 
-                                    <button className={buttonStyleRemove} onClick={(e) => removeTable(e, table.name)}>Remove {table.name} <TiTimes className="inline-block" /></button><br />
+                                    <button className={buttonStyleRemove} onClick={(e) => removeTable(e, table.name)}>Remove {table.name} <Icon icon={TiTimes} className="inline-block" /></button><br />
 
                                     <hr />
 
                                     <h1 className={headerStyle}>Fields</h1>
 
-                                    <button className={buttonStyleAdd} onClick={(e) => addField(e, table.name)}>Add new fields <TiPlus className="inline-block" /></button><br />
+                                    <button className={buttonStyleAdd} onClick={(e) => addField(e, table.name)}>Add new fields <Icon icon={TiPlus} className="inline-block" /></button><br />
 
                                     {table.fields.map((field, index2) => {
                                         return <div key={index+"_"+index2}>
@@ -292,7 +295,7 @@ const App = () => {
                                             <label className={labelStyle + " mt-2"}>Field Extension </label>
                                             <input className={inputStyle} type={"text"} onChange={(e) => handleTableFieldsChange(table.name, field.field, "extension", e.target.value)} value={field.extension} /><br />
 
-                                            <button className={buttonStyleRemove} onClick={(e) => removeField(e, table.name, field.field)}>Remove <TiTimes className="inline-block" /></button>
+                                            <button className={buttonStyleRemove} onClick={(e) => removeField(e, table.name, field.field)}>Remove <Icon icon={TiTimes} className="inline-block" /></button>
 
                                             <hr />
 
